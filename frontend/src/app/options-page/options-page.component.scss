@@ -1,0 +1,300 @@
+.main-container {
+  min-height: 100vh;
+  background: #fff;
+}
+
+.header-bar {
+  width: 100%;
+  background: #fff;
+  padding: 32px 0 16px 48px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  border-bottom: 1.5px solid #e3e3e3;
+}
+
+.header-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1976d2;
+  letter-spacing: 1.5px;
+}
+
+.api-tabs-container {
+  max-width: 1100px;
+  margin: 40px auto 0 auto;
+  background: transparent;
+}
+
+.api-tabs {
+  background: #f5faff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(25, 118, 210, 0.10);
+  padding: 0 0 24px 0;
+}
+
+.mat-tab-label {
+  background: #1976d2 !important;
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 16px 16px 0 0;
+  margin-right: 8px;
+  min-width: 180px;
+  text-align: center;
+}
+
+.mat-tab-label-active {
+  background: #2196f3 !important;
+  color: #fff !important;
+}
+
+.mat-tab-group {
+  margin-top: 0;
+}
+
+.tab-content {
+  padding: 36px 32px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #f8fafc;
+  min-height: 220px;
+  border-radius: 0 0 16px 16px;
+}
+
+.api-panel {
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(25, 118, 210, 0.07);
+  padding: 28px 28px 18px 28px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.api-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1976d2;
+  margin-bottom: 18px;
+  letter-spacing: 1px;
+}
+
+.api-fields {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 28px;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.model-dropdown, .file-input {
+  min-width: 220px;
+  flex: 1 1 220px;
+  background: #e3f2fd;
+  border-radius: 8px;
+}
+
+.file-input input[type="file"] {
+  background: #fff;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.action-btn {
+  min-width: 160px;
+  font-weight: 600;
+  font-size: 1.08rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.07);
+  margin-top: 8px;
+  height: 44px;
+}
+
+.result-bg {
+  width: 100%;
+  background: #e3f2fd;
+  border-radius: 8px;
+  margin-top: 18px;
+  padding: 18px 12px;
+  border: 1px solid #bbdefb;
+  box-shadow: 0 1px 4px rgba(25, 118, 210, 0.04);
+}
+
+pre {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: 1.08em;
+  margin: 0;
+  color: #263238;
+  border: none;
+  box-shadow: none;
+}
+
+.center-content {
+  align-items: center;
+  justify-content: center;
+}
+
+/* New tab-bar/menu styling */
+.tabs {
+  margin-top: 12px;
+
+  /* hide radio inputs visually but keep them for accessibility */
+  input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+  }
+
+  .tab-bar {
+    background: linear-gradient(90deg, rgba(241,248,255,1) 0%, rgba(235,244,255,1) 100%);
+    border-radius: 12px;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(25,118,210,0.06);
+    margin-bottom: 12px;
+  }
+
+  .tab-labels {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* individual tab "buttons" */
+  .tab-labels label {
+    padding: 10px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid transparent;
+    color: #0d47a1;
+    font-weight: 600;
+    transition: all 160ms ease-in-out;
+    user-select: none;
+  }
+
+  /* hover/focus visual */
+  .tab-labels label:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(25,118,210,0.08);
+  }
+
+  /* active state driven by radio checked (map each radio id to the corresponding label) */
+  #tab-detect-image:checked ~ .tab-bar .tab-labels label[for="tab-detect-image"],
+  #tab-detect-video:checked ~ .tab-bar .tab-labels label[for="tab-detect-video"],
+  #tab-train-models:checked ~ .tab-bar .tab-labels label[for="tab-train-models"],
+  #tab-compare-models:checked ~ .tab-bar .tab-labels label[for="tab-compare-models"],
+  #tab-download-processed:checked ~ .tab-bar .tab-labels label[for="tab-download-processed"] {
+    background: linear-gradient(90deg, #1976d2 0%, #2196f3 100%);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(33,150,243,0.18);
+    transform: translateY(0);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* panels sit beneath the single menu and match rounded corners */
+  .tab-panels {
+    margin-top: 0;
+  }
+
+  .tab-panel {
+    display: none;
+    padding: 16px 0 0 0;
+  }
+
+  #tab-detect-image:checked ~ .tab-panels .panel-detect-image,
+  #tab-detect-video:checked ~ .tab-panels .panel-detect-video,
+  #tab-train-models:checked ~ .tab-panels .panel-train-models,
+  #tab-compare-models:checked ~ .tab-panels .panel-compare-models,
+  #tab-download-processed:checked ~ .tab-panels .panel-download-processed {
+    display: block;
+  }
+}
+
+/* ensure api-panel looks integrated under the tab bar */
+.api-panel {
+  border-radius: 0 0 12px 12px;
+  margin-top: 0;
+  padding-top: 22px;
+}
+
+@media (max-width: 1100px) {
+  .api-tabs-container {
+    max-width: 99vw;
+    margin: 24px auto 0 auto;
+  }
+  .header-bar {
+    padding: 18px 0 8px 16px;
+  }
+  .header-title {
+    font-size: 1.3rem;
+  }
+  .tab-content {
+    padding: 12px 4px 4px 4px;
+  }
+  .api-panel {
+    padding: 10px 4px 4px 4px;
+  }
+  .api-fields {
+    gap: 10px;
+  }
+  .model-dropdown, .file-input {
+    min-width: 120px;
+    font-size: 0.95em;
+  }
+  .action-btn {
+    min-width: 100px;
+    font-size: 0.95rem;
+    height: 36px;
+  }
+}
+
+/* small tweaks for new controls */
+.form-field input[type="text"],
+.form-field input[type="file"],
+.form-field select,
+.form-field select[multiple] {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.form-field small.muted {
+  display: block;
+  font-size: 0.85rem;
+  color: #607d8b;
+  margin-top: 6px;
+}
+
+.form-field small {
+  display: block;
+  margin-top: 6px;
+  color: #455a64;
+}
+
+/* ensure the multi-select is visually compact */
+select[multiple] {
+  min-height: 80px;
+  max-width: 360px;
+}
+
+/* keep file-name display subtle */
+.file-input small {
+  display: inline-block;
+  margin-top: 6px;
+  color: #37474f;
+  font-size: 0.9rem;
+}

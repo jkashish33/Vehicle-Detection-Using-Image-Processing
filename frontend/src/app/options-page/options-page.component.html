@@ -1,0 +1,155 @@
+<div class="main-container">
+  <div class="header-bar">
+    <span class="header-title">Vehicle Detection Actions</span>
+  </div>
+
+  <div class="api-tabs-container">
+    <!-- Styles are provided by component SCSS; template contains structure and bindings only -->
+
+    <div class="tabs">
+      <!-- radio inputs control panels -->
+      <input type="radio" id="tab-detect-image" name="api-tabs" checked>
+      <input type="radio" id="tab-detect-video" name="api-tabs">
+      <input type="radio" id="tab-train-models" name="api-tabs">
+      <input type="radio" id="tab-compare-models" name="api-tabs">
+      <input type="radio" id="tab-download-processed" name="api-tabs">
+
+      <!-- tab-bar: single background menu for tab labels (styles provided in SCSS) -->
+      <div class="tab-bar">
+        <div class="tab-labels">
+          <label for="tab-detect-image">Detect Image</label>
+          <label for="tab-detect-video">Detect Video</label>
+          <label for="tab-train-models">Train Models</label>
+          <label for="tab-compare-models">Compare Models</label>
+          <label for="tab-download-processed">Download Processed</label>
+        </div>
+      </div>
+
+      <div class="tab-panels">
+        <!-- Detect Image -->
+        <section class="tab-panel panel-detect-image">
+          <div class="api-panel">
+            <div class="api-title">Detect Vehicles in Image</div>
+            <div class="api-fields">
+              <div class="form-field model-dropdown">
+                <label>Model</label>
+                <select [(ngModel)]="selectedModel">
+                  <option *ngFor="let m of availableModels" [value]="m">{{ m | titlecase }}</option>
+                </select>
+              </div>
+
+              <div class="form-field file-input">
+                <label>Upload Image</label>
+                <input type="file" (change)="onImageSelected($event)" accept="image/*">
+              </div>
+
+              <button class="action-btn" (click)="detectImage()" [disabled]="!imageFile">Detect Image</button>
+            </div>
+
+            <div *ngIf="detectResult" class="result-bg">
+              <pre>{{ detectResult | json }}</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Detect Video -->
+        <section class="tab-panel panel-detect-video">
+          <div class="api-panel">
+            <div class="api-title">Detect Vehicles in Video</div>
+            <div class="api-fields">
+              <div class="form-field model-dropdown">
+                <label>Model</label>
+                <select [(ngModel)]="selectedModel">
+                  <option *ngFor="let m of availableModels" [value]="m">{{ m | titlecase }}</option>
+                </select>
+              </div>
+
+              <div class="form-field file-input">
+                <label>Upload Video</label>
+                <input type="file" (change)="onVideoSelected($event)" accept="video/*">
+              </div>
+
+              <button class="action-btn" (click)="detectVideo()" [disabled]="!videoFile">Detect Video</button>
+            </div>
+
+            <div *ngIf="videoResult" class="result-bg">
+              <pre>{{ videoResult | json }}</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Train Models -->
+        <section class="tab-panel panel-train-models">
+          <div class="api-panel">
+            <div class="api-title">Train Detection Models</div>
+            <div class="api-fields">
+              <div class="form-field model-dropdown">
+                <label>Model to Train</label>
+                <select [(ngModel)]="trainModelSelection">
+                  <option *ngFor="let m of availableModels" [value]="m">{{ m | titlecase }}</option>
+                </select>
+              </div>
+
+              <div class="form-field file-input">
+                <label>Training Data (optional)</label>
+                <input type="file" (change)="onTrainDataSelected($event)" accept=".zip,.tar,.csv,.json">
+                <small *ngIf="trainDataFileName">{{ trainDataFileName }}</small>
+              </div>
+
+              <div class="form-field">
+                <label>Or dataset name</label>
+                <input [(ngModel)]="trainDataName" placeholder="Enter dataset identifier">
+              </div>
+
+              <button class="action-btn" (click)="trainModels()">Start Training</button>
+            </div>
+            <div *ngIf="trainResult" class="result-bg">
+              <pre>{{ trainResult | json }}</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Compare Models -->
+        <section class="tab-panel panel-compare-models">
+          <div class="api-panel">
+            <div class="api-title">Compare Model Performance</div>
+            <div class="api-fields">
+              <div class="form-field">
+                <label>Select models to compare</label>
+                <select multiple size="3" [(ngModel)]="selectedCompareModels">
+                  <option *ngFor="let m of availableModels" [value]="m">{{ m | titlecase }}</option>
+                </select>
+                <small class="muted">Hold Ctrl/Cmd to select multiple</small>
+              </div>
+
+              <div class="form-field">
+                <label>Optional: evaluation dataset</label>
+                <input [(ngModel)]="compareDataset" placeholder="Enter dataset identifier">
+              </div>
+
+              <button class="action-btn" (click)="compareModels()">Compare</button>
+            </div>
+
+            <div *ngIf="compareResult" class="result-bg">
+              <pre>{{ compareResult | json }}</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Download Processed -->
+        <section class="tab-panel panel-download-processed">
+          <div class="api-panel">
+            <div class="api-title">Download Processed File</div>
+            <div class="api-fields">
+              <div class="form-field file-input">
+                <label>Processed File Name</label>
+                <input [(ngModel)]="downloadName" placeholder="Enter processed file name">
+              </div>
+              <button class="action-btn" (click)="downloadProcessed()">Download Processed File</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+Flask
+flask-restx
+flask_sqlalchemy
+opencv-python
+tensorflow
+keras
+pillow
+numpy
+Werkzeug
