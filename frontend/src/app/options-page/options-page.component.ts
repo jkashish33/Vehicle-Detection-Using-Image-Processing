@@ -4,7 +4,8 @@ import { VehicleService } from '../services/vehicle.service';
 @Component({
     selector: 'app-options-page',
     templateUrl: './options-page.component.html',
-    styleUrls: ['./options-page.component.scss']
+    styleUrls: ['./options-page.component.scss'],
+    standalone: false
 })
 export class OptionsPageComponent implements OnInit {
     selectedModel = 'haar';
