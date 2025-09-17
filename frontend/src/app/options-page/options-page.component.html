@@ -4,17 +4,15 @@
   </div>
 
   <div class="api-tabs-container">
-    <!-- Styles are provided by component SCSS; template contains structure and bindings only -->
-
+    <!-- Tab controls (radio buttons) -->
     <div class="tabs">
-      <!-- radio inputs control panels -->
       <input type="radio" id="tab-detect-image" name="api-tabs" checked>
       <input type="radio" id="tab-detect-video" name="api-tabs">
       <input type="radio" id="tab-train-models" name="api-tabs">
       <input type="radio" id="tab-compare-models" name="api-tabs">
       <input type="radio" id="tab-download-processed" name="api-tabs">
 
-      <!-- tab-bar: single background menu for tab labels (styles provided in SCSS) -->
+      <!-- Tab Labels -->
       <div class="tab-bar">
         <div class="tab-labels">
           <label for="tab-detect-image">Detect Image</label>
@@ -25,6 +23,7 @@
         </div>
       </div>
 
+      <!-- Tab Panels -->
       <div class="tab-panels">
         <!-- Detect Image -->
         <section class="tab-panel panel-detect-image">
@@ -48,6 +47,11 @@
 
             <div *ngIf="detectResult" class="result-bg">
               <pre>{{ detectResult | json }}</pre>
+              <div *ngIf="detectResult.processed_filename" class="download-link">
+                <a href="javascript:void(0)" (click)="downloadProcessedFile(detectResult.processed_filename)">
+                  Download Processed Image
+                </a>
+              </div>
             </div>
           </div>
         </section>
@@ -74,6 +78,11 @@
 
             <div *ngIf="videoResult" class="result-bg">
               <pre>{{ videoResult | json }}</pre>
+              <div *ngIf="videoResult.processed_filename" class="download-link">
+                <a href="javascript:void(0)" (click)="downloadProcessedFile(videoResult.processed_filename)">
+                  Download Processed Video
+                </a>
+              </div>
             </div>
           </div>
         </section>

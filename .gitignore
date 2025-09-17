@@ -1,0 +1,67 @@
+# Python byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Specific backend artifacts (present in repo)
+backend/__pycache__/
+backend/processed/
+
+# Backend databases/logs
+*.sqlite3
+*.db
+*.sqlite
+*.log
+
+# Virtual environments (common locations)
+.venv/
+venv/
+env/
+
+# ML model weights and checkpoints (if downloaded during runtime)
+backend/models/
+backend/weights/
+backend/checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.pb
+*.onnx
+
+# Large dataset present in repo
+/data/coco2017/
+
+# Frontend (Angular) specific
+frontend/.angular/
+frontend/node_modules/
+frontend/dist/
+frontend/out-tsc/
+frontend/coverage/
+
+# IDEs and editor settings
+.vscode/
+frontend/.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# NPM / Yarn logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker
+docker-compose.override.yml
+
+# Keep docs/ tracked (do not ignore .docx/.pdf in docs)
+# Misc binaries
+*.so
+*.dll
+*.exe
+
+# Keep a placeholder to allow empty directories if needed
+!.gitkeep

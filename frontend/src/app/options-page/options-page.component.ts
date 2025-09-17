@@ -99,33 +99,57 @@ export class OptionsPageComponent implements OnInit {
     }
 
     trainModels() {
-        // send selected model and either file or dataset name
         const payload: any = { model: this.trainModelSelection };
+
         if (this.trainDataFile) {
-            // if backend expects FormData
             const fd = new FormData();
             fd.append('model', this.trainModelSelection);
             fd.append('dataset', this.trainDataFile, this.trainDataFile.name);
-            this.vehicleService.trainModels(fd).subscribe(res => {
-                this.trainResult = res;
-                alert('Training started/completed.');
+            this.vehicleService.trainModels(fd).subscribe({
+                next: (res) => {
+                    this.trainResult = res;
+                    alert('Training started/completed.');
+                },
+                error: (err) => {
+                    console.error('Training failed', err);
+                    this.trainResult = { error: 'Training failed' };
+                    alert('Training failed.');
+                }
             });
             return;
         }
+
         if (this.trainDataName) payload.dataset = this.trainDataName;
-        this.vehicleService.trainModels(payload).subscribe(res => {
-            this.trainResult = res;
-            alert('Training started/completed.');
+
+        this.vehicleService.trainModels(payload).subscribe({
+            next: (res) => {
+                this.trainResult = res;
+                alert('Training started/completed.');
+            },
+            error: (err) => {
+                console.error('Training failed', err);
+                this.trainResult = { error: 'Training failed' };
+                alert('Training failed.');
+            }
         });
     }
 
     compareModels() {
-        // require at least two models for meaningful comparison (backend can handle)
-        const models = this.selectedCompareModels && this.selectedCompareModels.length ? this.selectedCompareModels : this.availableModels;
+        const models = this.selectedCompareModels && this.selectedCompareModels.length
+            ? this.selectedCompareModels
+            : this.availableModels;
+
         const payload: any = { models };
         if (this.compareDataset) payload.dataset = this.compareDataset;
-        this.vehicleService.compareModels(payload).subscribe(res => {
-            this.compareResult = res;
+
+        this.vehicleService.compareModels(payload).subscribe({
+            next: (res) => {
+                this.compareResult = res;
+            },
+            error: (err) => {
+                console.error('Model comparison failed', err);
+                this.compareResult = { error: 'Comparison failed' };
+            }
         });
     }
 
@@ -135,10 +159,13 @@ export class OptionsPageComponent implements OnInit {
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = this.downloadName;
+                a.download = this.downloadName || 'processed_result';
                 a.click();
                 window.URL.revokeObjectURL(url);
             });
+        } else {
+            alert('Please enter the name of the file to download.');
         }
     }
+
 }

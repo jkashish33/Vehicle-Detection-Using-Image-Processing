@@ -12,6 +12,7 @@ api = Namespace('vehicle', description='Vehicle detection operations')
 
 upload_parser = api.parser()
 upload_parser.add_argument('image', location='files', type='FileStorage', required=True)
+upload_parser.add_argument('model', location='form', type=str, required=False)
 
 video_upload_parser = api.parser()
 video_upload_parser.add_argument('video', location='files', type=FileStorage, required=True)
@@ -59,23 +60,6 @@ class VehicleDetectVideo(Resource):
         processed_filename, stats = detect_video(video, model)
         return {'processed_filename': processed_filename, 'stats': stats}
 
-@api.route('/train')
-class VehicleTrain(Resource):
-    @api.expect(train_parser, train_json)
-    def post(self):
-        """Train all models on COCO dataset (simple trigger).
-
-        This keeps backward compatibility with the original simple trigger
-        while more advanced training is exposed via the /train POST resource
-        implemented further down.
-        """
-        # call the service-level trainer if available
-        try:
-            services_train_models()
-        except Exception:
-            current_app.logger.exception("services_train_models failed (placeholder)")
-        return {'status': 'training complete'}
-
 @api.route('/compare')
 class VehicleCompare(Resource):
     @api.expect(compare_json)
@@ -88,6 +72,29 @@ class VehicleCompare(Resource):
         models = list_available_models()
         results = compare_models(models)
         return results
+    
+    @api.expect(compare_json)
+    def post(self):
+        """
+        Compare multiple models on an optional dataset.
+        Expects JSON body: { models: [string,...], dataset?: string }
+        """
+        try:
+            data = request.get_json(silent=True)
+            if not data or 'models' not in data:
+                return jsonify({'error': 'Request must contain "models" array'}), 400
+
+            models = data.get('models') or []
+            dataset = data.get('dataset')
+
+            if not isinstance(models, list) or not all(isinstance(m, str) for m in models):
+                return jsonify({'error': '"models" must be an array of strings'}), 400
+
+            result = compare_models(models, dataset=dataset)
+            return jsonify(result), 200
+        except Exception as e:
+            current_app.logger.exception("Comparison failed")
+            return jsonify({'error': 'Comparison failed', 'detail': str(e)}), 500
 
 @api.route('/models')
 class ModelsResource(Resource):
@@ -149,27 +156,3 @@ class TrainResource(Resource):
             current_app.logger.exception("Training failed")
             return jsonify({'error': 'Training failed', 'detail': str(e)}), 500
 
-@api.route('/compare')
-class CompareResource(Resource):
-    @api.expect(compare_json)
-    def post(self):
-        """
-        Compare multiple models on an optional dataset.
-        Expects JSON body: { models: [string,...], dataset?: string }
-        """
-        try:
-            data = request.get_json(silent=True)
-            if not data or 'models' not in data:
-                return jsonify({'error': 'Request must contain "models" array'}), 400
-
-            models = data.get('models') or []
-            dataset = data.get('dataset')
-
-            if not isinstance(models, list) or not all(isinstance(m, str) for m in models):
-                return jsonify({'error': '"models" must be an array of strings'}), 400
-
-            result = compare_models(models, dataset=dataset)
-            return jsonify(result), 200
-        except Exception as e:
-            current_app.logger.exception("Comparison failed")
-            return jsonify({'error': 'Comparison failed', 'detail': str(e)}), 500

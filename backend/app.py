@@ -1,5 +1,6 @@
 from flask import Flask, send_from_directory
 from flask_restx import Api
+from flask_cors import CORS
 import os
 from db_handler import DBHandler
 
@@ -11,6 +12,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db_handler.init_app(app)
+    CORS(app)
     api = Api(app, version='1.0', title='Vehicle Detection API', doc='/')
 
     from routes.vehicle import api as vehicle_ns
