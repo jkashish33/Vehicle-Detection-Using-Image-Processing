@@ -154,13 +154,13 @@ export class OptionsPageComponent implements OnInit {
         });
     }
 
-    downloadProcessed() {
-        if (this.downloadName) {
-            this.vehicleService.downloadProcessedFile(this.downloadName).subscribe(blob => {
+    downloadProcessedFile(name: string) {
+        if (name) {
+            this.vehicleService.downloadProcessedFile(name).subscribe(blob => {
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = this.downloadName || 'processed_result';
+                a.download = name || 'processed_result';
                 a.click();
                 window.URL.revokeObjectURL(url);
             });
@@ -169,4 +169,11 @@ export class OptionsPageComponent implements OnInit {
         }
     }
 
+    downloadProcessed() {
+        if (!this.downloadName) {
+            alert('Please enter the processed file name.');
+            return;
+        }
+        this.downloadProcessedFile(this.downloadName);
+    }
 }

@@ -55,7 +55,6 @@ export class VehicleService {
 
   // Download processed file by name - returns blob
   downloadProcessedFile(name: string): Observable<Blob> {
-    const params = `?name=${encodeURIComponent(name)}`;
-    return this.http.get(`${this.baseUrl}/vehicle/download${params}`, { responseType: 'blob' });
+    return this.http.get(`${this.baseUrl}/vehicle/download/${name}`, { responseType: 'blob' });
   }
 }
