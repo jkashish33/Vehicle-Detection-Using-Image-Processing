@@ -35,22 +35,22 @@ export class VehicleService {
   
   trainModels(payload: any): Observable<any> {
     if (payload instanceof FormData) {
-        return this.http.post<any>(`${this.baseUrl}/train`, payload);
+        return this.http.post<any>(`${this.baseUrl}/vehicle/train`, payload);
     }
-    return this.http.post<any>(`${this.baseUrl}/train`, payload, {
+    return this.http.post<any>(`${this.baseUrl}/vehicle/train`, payload, {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     });
   }
 
   // Compare models: payload { models: string[], dataset?: string }
   compareModels(payload: { models: string[]; dataset?: string }): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/compare`, payload, {
+    return this.http.post<any>(`${this.baseUrl}/vehicle/compare`, payload, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     });
   }
 
   compareAll(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/compare`);
+    return this.http.get<any>(`${this.baseUrl}/vehicle/compare`);
   }
 
   // Download processed file by name - returns blob
